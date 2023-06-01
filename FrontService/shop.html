@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body class="overflow-x-hidden">
+    <nav class="bg-gray-800">
+        <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+            <div class="relative flex h-16 items-center justify-between">
+                <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                    <div class="hidden sm:ml-6 sm:block">
+                        <div class="flex space-x-4">
+                            <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+                            <a href="home.html" 
+                                class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
+                                Home
+                            </a>
+                            <a href="shop.html"
+                                class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium">
+                                Shop
+                            </a>
+                            <a href="card.html"
+                                aria-current="page"
+                                class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
+                                Card
+                            </a>
+                            <a href="room.html"
+                                class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
+                                Room
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                    <span class="text-white font-bold">XXX€</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div id="containCards">
+        <div class="w-screen text-left h-screen flex flex-row overflow-x-hidden p-8 justify-between flex-nowrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Family</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="item in cards" :key="item.id" v-on:click="greet(item)" :class="{ 'bg-gray-200': item.id === id }" >
+                        <td>{{item.name}}</td>
+                        <td>{{item.description}}</td>
+                        <td>{{item.family}}</td>
+                        <td>{{item.price}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="fixed right-16 top-22 w-2/5 h-52 bg-gray-50 rounded-xl">
+                <div class="px-6 pt-4">
+                    <span
+                        class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{{family}}</span>
+                    <span
+                        class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{{affinity}}</span>
+                </div>
+                <div class="px-6">
+                    <div class="font-bold text-xl mb-2">{{name}}</div>
+                    <p class="text-gray-700 text-base">
+                        {{description}}
+                    </p>
+                </div>
+                <div class="px-6 pt-4 pb-2">
+                    <span
+                        class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{{id}}</span>
+                    <span
+                        class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{{energy}}</span>
+                    <span
+                        class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{{hp}}</span>
+                    <span
+                        class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{{defence}}</span>
+                    <span
+                        class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{{attack}}</span>
+                    <span
+                        class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{{price}}€</span>
+                </div>
+                <button class="relative ml-4 mt-12 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" v-on:click="buy">Buy</button>
+                <a href="newCard.html">
+                    <button class="relative ml-4 mt-12 bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded" v-on:click="buy">New Card</button>
+                </a>
+            </div>
+        </div>
+    </div>
+    <script>
+        const { createApp } = Vue;
+
+        createApp({
+            data() {
+                return {
+                    message: "hello",
+                    cards: [],
+                    name: '',
+                    description: '',
+                    family: '',
+                    affinity: '',
+                    id: '',
+                    energy: '',
+                    hp: '',
+                    defence: '',
+                    attack: '',
+                    price: ''
+                }
+            },
+            beforeMount() {
+                this.loading = true
+                axios.get("http://vps.cpe-sn.fr:8083/cards_to_sell")
+                    .then(response => {
+                        this.cards = response.data;
+                        this.name = response.data[0].name;
+                        this.description = response.data[0].description;
+                        this.family = response.data[0].family;
+                        this.affinity = response.data[0].affinity;
+                        this.id = response.data[0].id;
+                        this.energy = response.data[0].energy;
+                        this.hp = response.data[0].hp;
+                        this.defence = response.data[0].defence;
+                        this.attack = response.data[0].attack;
+                        this.price = response.data[0].price;
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+                this.loading = false
+            },
+            methods: {
+                greet: function(item) {
+                    this.name = item.name;
+                    this.description = item.description;
+                    this.family = item.family;
+                    this.affinity = item.affinity;
+                    this.id = item.id;
+                    this.energy = item.energy;
+                    this.hp = item.hp;
+                    this.defence = item.defence;
+                    this.attack = item.attack;
+                    this.price = item.price;
+                },
+                buy: function() {
+                    this.cards = this.cards.filter(item => item.id !== this.id);
+                    this.name = this.cards[0].name;
+                    this.description = this.cards[0].description;
+                    this.family = this.cards[0].family;
+                    this.affinity = this.cards[0].affinity;
+                    this.id = this.cards[0].id;
+                    this.energy = this.cards[0].energy;
+                    this.hp = this.cards[0].hp;
+                    this.defence = this.cards[0].defence;
+                    this.attack = this.cards[0].attack;
+                    this.price = this.cards[0].price;
+                }
+            }
+        }).mount('#containCards')
+    </script>
+</body>
+
+</html>
