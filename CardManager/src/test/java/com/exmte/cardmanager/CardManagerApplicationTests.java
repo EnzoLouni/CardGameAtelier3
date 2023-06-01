@@ -1,4 +1,4 @@
-package com.exmte.cardmanager;
+package com.emte.cardmanager;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
