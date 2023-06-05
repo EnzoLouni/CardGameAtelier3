@@ -12,5 +12,11 @@ services:
       - 5432:5432
     volumes:
       - ./init-data:/docker-entrypoint-initdb.d
-volumes:
-  postgres:
+  reverseproxy:
+    container_name: cardgame_reverseproxy
+    image: nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    network_mode: "host"
+    depends_on: 
+      - postgres
