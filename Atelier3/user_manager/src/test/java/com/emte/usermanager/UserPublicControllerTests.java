@@ -1,20 +1,20 @@
-import com.emte.dto.AuthDto;
+package com.emte.usermanager;
+
 import com.emte.dto.UserDto;
+import com.emte.usermanager.controller.UserPublicController;
 import com.emte.usermanager.service.UserService;
 import com.emte.view.Views;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import javax.validation.Valid;
 import java.util.Collections;
-import java.util.List;
 
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;

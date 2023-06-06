@@ -1,23 +1,23 @@
-import com.emte.storemanager.controller.StoreController;
+package com.emte.storemanager;
+
 import com.emte.dto.StoreTransactionDto;
 import com.emte.model.StoreOrder;
+import com.emte.storemanager.controller.StoreController;
 import com.emte.storemanager.service.StoreService;
 import com.emte.view.Views;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import javax.validation.Valid;
 import java.util.Collections;
-import java.util.List;
 
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(StoreController.class)
