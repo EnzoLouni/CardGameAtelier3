@@ -7,6 +7,7 @@
     <title>New Room</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
   </head>
 
   <body class="overflow-x-hidden">
@@ -49,7 +50,7 @@
           <div
             class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0"
           >
-            <span class="text-white font-bold">XXX€</span>
+            <span class="text-white font-bold">{{money}}€</span>
           </div>
         </div>
       </div>
@@ -301,6 +302,24 @@
     </div>
 
     <script>
+      const { createApp } = Vue;
+      createApp({
+        data() {
+          return {
+            message: "hello",
+            money: "",
+          };
+        },
+        mounted() {
+          console.log(JSON.parse(window.localStorage.getItem("userData")));
+          if (window.localStorage.getItem("userData")) {
+            const userJson = JSON.parse(
+              window.localStorage.getItem("userData")
+            );
+            this.money = userJson.money ? userJson.money : "2022";
+          } else console.log("no user logged in");
+        },
+      }).mount("body");
       function NewCard() {
         const name = document.getElementById("name").value;
         const family = document.getElementById("family").value;
