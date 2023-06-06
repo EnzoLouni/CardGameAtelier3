@@ -1,25 +1,25 @@
+package com.emte.storemanager;
+
 import com.emte.client.CardClient;
 import com.emte.client.UserClient;
-import com.emte.storemanager.service.StoreService;
 import com.emte.dto.CardDto;
 import com.emte.dto.StoreTransactionDto;
 import com.emte.dto.UserDto;
 import com.emte.mapper.StoreMapper;
-import com.emte.model.StoreAction;
 import com.emte.model.StoreOrder;
+import com.emte.model.StoreTransaction;
 import com.emte.storemanager.dao.StoreRepository;
+import com.emte.storemanager.service.StoreService;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import java.util.Date;
+import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -71,7 +71,10 @@ public class StoreServiceTests {
 
     @Test
     public void testSell_WithInvalidOrder() {
-        StoreOrder order = new StoreOrder();
+        StoreOrder order = StoreOrder.builder()
+                .cardId(1)
+                .userId(1)
+                .build();
         CardDto cardSold = new CardDto();
 
         cardSold.setUserId(order.getUserId() + 1); // ID d'utilisateur est différent

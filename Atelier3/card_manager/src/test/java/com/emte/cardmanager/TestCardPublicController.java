@@ -1,10 +1,8 @@
+package com.emte.cardmanager;
+
 import com.emte.cardmanager.controller.CardPublicController;
-import com.emte.cardmanager.dao.CardRepository;
 import com.emte.cardmanager.service.CardService;
 import com.emte.dto.CardDto;
-import com.emte.mapper.CardMapper;
-import com.emte.model.Card;
-import com.emte.view.Views;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -13,22 +11,23 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Collections;
-import java.util.Optional;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-class CardPublicControllerTest {
+@SpringBootTest
+class TestCardPublicController {
 
     @Mock
     private CardService cardService;
