@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
   </head>
 
   <body class="overflow-hidden">
@@ -49,7 +50,7 @@
           <div
             class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0"
           >
-            <span class="text-white font-bold">XXX€</span>
+            <span class="text-white font-bold">{{money}}€</span>
           </div>
         </div>
       </div>
@@ -117,6 +118,25 @@
       </a>
     </div>
 
-    <script></script>
+    <script>
+      const { createApp } = Vue;
+      createApp({
+        data() {
+          return {
+            message: "hello",
+            money: "",
+          };
+        },
+        mounted() {
+          console.log(JSON.parse(window.localStorage.getItem("userData")));
+          if (window.localStorage.getItem("userData")) {
+            const userJson = JSON.parse(
+              window.localStorage.getItem("userData")
+            );
+            this.money = userJson.money ? userJson.money : "2022";
+          } else console.log("no user logged in");
+        },
+      }).mount("body");
+    </script>
   </body>
 </html>
