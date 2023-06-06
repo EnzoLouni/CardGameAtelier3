@@ -143,7 +143,7 @@
     </div>
     <script>
       const { createApp } = Vue;
-
+      let selectedCardId;
       createApp({
         data() {
           return {
@@ -198,6 +198,7 @@
             this.family = item.family;
             this.affinity = item.affinity;
             this.id = item.id;
+            selectedCardId = item.id;
             this.energy = item.energy;
             this.hp = item.hp;
             this.defence = item.defence;
@@ -205,6 +206,17 @@
             this.price = item.price;
           },
           buy: function () {
+            if (window.localStorage.getItem("userData")) {
+              const userJson = JSON.parse(
+                window.localStorage.getItem("userData")
+              );
+              axios.post("http://localhost:80/storeapi/store/buy/", {
+                cardId: userJson.id,
+                userId: selectedCardId,
+              });
+              console.log(userJson.id, selectedCardId);
+            } else console.log("no user logged in");
+
             this.cards = this.cards.filter((item) => item.id !== this.id);
             this.name = this.cards[0].name;
             this.description = this.cards[0].description;
