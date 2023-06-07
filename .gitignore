@@ -31,7 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
-/FrontService/front-service/.vscode
+/vue/.vscode
 
 ### node modules ###
-/FrontService/front-service/node_modules
+/vue/node_modules
