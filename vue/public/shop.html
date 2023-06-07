@@ -165,7 +165,7 @@
         beforeMount() {
           this.loading = true;
           axios
-            .get("http://vps.cpe-sn.fr:8083/cards_to_sell")
+            .get("http://localhost:80/cardapi/public/cards_to_sell")
             .then((response) => {
               this.cards = response.data;
               this.name = response.data[0].name;
