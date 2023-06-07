@@ -64,3 +64,14 @@ services:
     depends_on:
       - db
       - reverseproxy
+  vue:
+    container_name: cardgame_vue
+    build:
+        context: ./vue
+        dockerfile: Dockerfile
+    image: schtoukai/cardgame_vue
+    ports:
+      - 3001:3001
+    depends_on:
+      - db
+      - reverseproxy
