@@ -105,7 +105,7 @@
   },
   {
     "name": "Zozzer ultime - MaTTHIas",
-    "description": "MaTTHIas est le Zozzer ultime, représentant la puissance et la perfection dans le monde de \"Zozzémon\".",
+    "description": "MaTTHIas est le Zozzer ultime, représentant la puissance et la perfection dans le monde de Zozzémon.",
     "family": "Zozzer",
     "affinity": "Air",
     "imgUrl": "img/zozzer_ultime.png",
@@ -118,7 +118,7 @@
   },
   {
     "name": "Néo-Zozzer - Raphaël",
-    "description": "Raphaël est un Néo-Zozzer, une forme évoluée et améliorée de Zozzer dans le monde de \"Zozzémon\".",
+    "description": "Raphaël est un Néo-Zozzer, une forme évoluée et améliorée de Zozzer dans le monde de Zozzémon.",
     "family": "Zozzer",
     "affinity": "Terre",
     "imgUrl": "img/neo_zozzer.png",
@@ -157,7 +157,7 @@
   },
   {
     "name": "ZAlexis l'allergique - le Bref",
-    "description": "ZAlexis l'allergique, surnommé \"le Bref\", est un Zozz qui souffre d'allergies sévères.",
+    "description": "ZAlexis l'allergique, surnommé le Bref, est un Zozz qui souffre d'allergies sévères.",
     "family": "Zozzer",
     "affinity": "Air",
     "imgUrl": "img/zalexis_allergique.png",
@@ -170,7 +170,7 @@
   },
   {
     "name": "ZAlexis le Gros - les 60€",
-    "description": "ZAlexis le Gros, surnommé \"les 60€\", est un Zozz imposant et puissant.",
+    "description": "ZAlexis le Gros, surnommé les 60€, est un Zozz imposant et puissant.",
     "family": "Zozzer",
     "affinity": "Terre",
     "imgUrl": "img/zalexis_gros.png",
@@ -183,7 +183,7 @@
   },
   {
     "name": "Le Zozz",
-    "description": "Le Zozz est l'un des Zozzers de base dans le monde de \"Zozzémon\".",
+    "description": "Le Zozz est l'un des Zozzers de base dans le monde de Zozzémon.",
     "family": "Zozz",
     "affinity": "Feu",
     "imgUrl": "img/zozz_pro_git.png",
@@ -222,7 +222,7 @@
   },
   {
     "name": "Zozz - Barrage à Zacron",
-    "description": "Zozz, le Barrage à Zacron, est un Zozz déterminé à contrecarrer les plans de Zacron, un puissant antagoniste dans le monde de \"Zozzémon\".",
+    "description": "Zozz, le Barrage à Zacron, est un Zozz déterminé à contrecarrer les plans de Zacron, un puissant antagoniste dans le monde de Zozzémon.",
     "family": "Zozz",
     "affinity": "Feu",
     "imgUrl": "img/zozz_pro_git.png",
@@ -235,7 +235,7 @@
   },
   {
     "name": "Zacron - Le Visionnaire",
-    "description": "Zacron, surnommé \"Le Visionnaire\", est un Zozz charismatique et habile dans la prise de décisions. Capable de motiver son équipe et d'adopter des approches diplomatiques pour gagner les combats.",
+    "description": "Zacron, surnommé Le Visionnaire, est un Zozz charismatique et habile dans la prise de décisions. Capable de motiver son équipe et d'adopter des approches diplomatiques pour gagner les combats.",
     "family": "Zacron",
     "affinity": "Feu",
     "imgUrl": "img/zozz_pro_git.png",
