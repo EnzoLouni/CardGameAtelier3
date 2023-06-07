@@ -248,7 +248,7 @@
             const userJson = JSON.parse(
               window.localStorage.getItem("userData")
             );
-            this.money = userJson.money ? userJson.money : "2022";
+            this.wallet = userJson.wallet ? userJson.wallet : "2022";
           } else console.log("no user logged in");
         },
       }).mount("body");
@@ -274,7 +274,7 @@
           smallImgUrl: smallImgUrl,
           energy: energy,
           hp: hp,
-          defence: defence,
+          defense: defence,
           attack: attack,
           price: price,
           description: description,
@@ -284,6 +284,7 @@
           .post("http://localhost:80/cardapi/public/card/", data)
           .then(function (response) {
             console.log(response);
+            window.location.replace("/shop");
           })
           .catch(function (error) {
             console.log(error);

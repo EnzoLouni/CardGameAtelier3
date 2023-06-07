@@ -12,4 +12,8 @@ public class Views {
     public static class StoreView {
 
     }
+
+    public static class RoomView {
+
+    }
 }

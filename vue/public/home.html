@@ -133,7 +133,7 @@
             const userJson = JSON.parse(
               window.localStorage.getItem("userData")
             );
-            this.money = userJson.money ? userJson.money : "2022";
+            this.money = userJson.wallet ? userJson.wallet : "2022";
           } else console.log("no user logged in");
         },
       }).mount("body");

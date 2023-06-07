@@ -11,7 +11,6 @@ import com.emte.model.StoreOrder;
 import com.emte.storemanager.dao.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
 
 import java.util.Date;
 import java.util.List;
@@ -19,7 +18,6 @@ import java.util.stream.StreamSupport;
 
 import static java.util.stream.Collectors.toList;
 
-@Validated
 @RequiredArgsConstructor
 @Service
 public class StoreService {
@@ -35,9 +33,12 @@ public class StoreService {
 
     public boolean sell(StoreOrder order) {
         CardDto cardSold = cardClient.getCard(order.getCardId());
-        if(cardSold.getUserId() == order.getUserId()) {
+        UserDto seller = userClient.getUser(order.getUserId());
+        if(cardSold.getUserId() == order.getUserId() && seller.getCardDtos().contains(cardSold)) {
             cardSold.setUserId(null);
             cardClient.updateCard(cardSold.getId(), cardSold);
+            seller.setWallet(seller.getWallet() + cardSold.getPrice());
+            userClient.updateUser(seller.getId(), seller);
             StoreTransactionDto newStoreTransactionDto = StoreTransactionDto.builder()
                     .cardDto(cardSold)
                     .userDto(userClient.getUser(order.getUserId()))
@@ -52,10 +53,13 @@ public class StoreService {
 
     public boolean buy(StoreOrder order) {
         CardDto cardBought = cardClient.getCard(order.getCardId());
-        if(cardBought.getUserId() == null) {
-            UserDto newOwner = userClient.getUser(order.getUserId());
+        UserDto newOwner = userClient.getUser(order.getUserId());
+        Double remainingBalance = (newOwner.getWallet() - cardBought.getPrice());
+        if(cardBought.getUserId() == null &&  remainingBalance >= 0) {
+            newOwner.setWallet(remainingBalance);
             cardBought.setUserId(newOwner.getId());
             cardClient.updateCard(cardBought.getId(), cardBought);
+            userClient.updateUser(newOwner.getId(), newOwner);
             StoreTransactionDto newStoreTransactionDto = StoreTransactionDto.builder()
                     .cardDto(cardBought)
                     .userDto(newOwner)

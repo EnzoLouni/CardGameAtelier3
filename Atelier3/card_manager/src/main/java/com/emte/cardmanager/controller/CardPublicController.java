@@ -2,6 +2,7 @@ package com.emte.cardmanager.controller;
 
 import com.emte.cardmanager.service.CardService;
 import com.emte.dto.CardDto;
+import com.emte.model.RequestCreationCard;
 import com.emte.view.Views;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.RequiredArgsConstructor;
@@ -36,9 +37,9 @@ public class CardPublicController {
 
     @JsonView(Views.CardView.class)
     @PostMapping("/card")
-    public CardDto createCard(@RequestBody @Valid CardDto card)
+    public CardDto createCard(@RequestBody @Valid RequestCreationCard request)
     {
-        return cardService.createCard(card);
+        return cardService.createCard(request);
     }
 
     @JsonView(Views.CardView.class)

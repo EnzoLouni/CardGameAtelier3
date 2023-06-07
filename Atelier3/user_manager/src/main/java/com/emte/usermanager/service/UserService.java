@@ -5,13 +5,12 @@ import com.emte.dto.AuthDto;
 import com.emte.dto.CardDto;
 import com.emte.dto.UserDto;
 import com.emte.mapper.UserMapper;
+import com.emte.model.RequestCreationUser;
 import com.emte.model.User;
 import com.emte.usermanager.dao.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
 
 import java.util.Collections;
 import java.util.List;
@@ -20,7 +19,6 @@ import java.util.stream.StreamSupport;
 
 import static java.util.stream.Collectors.toList;
 
-@Validated
 @RequiredArgsConstructor
 @Service
 public class UserService {
@@ -32,7 +30,7 @@ public class UserService {
     public UserDto getUser(Integer userId) {
         Optional<User> user = userRepository.findById(userId);
         if(user.isEmpty()) {
-            throw new ResourceNotFoundException();
+            return null;
         }
         return userMapper.toUserDto(user.get());
     }
@@ -45,7 +43,7 @@ public class UserService {
             userRepository.save(userMapper.toUser(newUserDto));
             return getUser(id);
         } catch(Exception e) {
-            throw new ResourceNotFoundException();
+            return null;
         }
     }
 
@@ -55,18 +53,25 @@ public class UserService {
             userRepository.deleteById(userId);
             return true;
         } catch(Exception e) {
-            throw new ResourceNotFoundException();
+            return false;
         }
     }
 
-    public UserDto createUser(UserDto user) {
-        boolean isAnUsedLogin = userRepository.hasAnExistingLogin(user.getLogin());
+    public UserDto createUser(RequestCreationUser request) {
+        boolean isAnUsedLogin = userRepository.hasAnExistingLogin(request.getLogin());
         if(!isAnUsedLogin){
-            user.setPassword(DigestUtils.sha256Hex(user.getPassword()));
+            UserDto newUser = UserDto.builder()
+                    .login(request.getLogin())
+                    .email(request.getEmail())
+                    .firstname(request.getFirstname())
+                    .surname(request.getSurname())
+                    .wallet(100.0)
+                    .password(DigestUtils.sha256Hex(request.getPassword()))
+                    .build();
             List<CardDto> cardsToSell = cardClient.getCardsToSell();
             Collections.shuffle(cardsToSell);
             List<CardDto> cardsToAssign;
-            UserDto userRegistered = userMapper.toUserDto(userRepository.save(userMapper.toUser(user)));
+            UserDto userRegistered = userMapper.toUserDto(userRepository.save(userMapper.toUser(newUser)));
             if(cardsToSell.size() < 5) {
                 cardsToAssign = cardsToSell.subList(0, cardsToSell.size());
                 List<CardDto> generatedCards = cardClient.getGeneratedCards();
@@ -98,9 +103,13 @@ public class UserService {
     }
 
     public boolean authenticate(AuthDto request) {
-        String passwordGiven = DigestUtils.sha256Hex(request.getPassword());
-        String passwordRelated = userRepository.getPasswordByLogin(request.getLogin());
-        return passwordGiven.equals(passwordRelated);
+        try {
+            String passwordGiven = DigestUtils.sha256Hex(request.getPassword());
+            String passwordRelated = userRepository.getPasswordByLogin(request.getLogin());
+            return passwordGiven.equals(passwordRelated);
+        } catch(Exception e) {
+            return false;
+        }
     }
 
     public List<UserDto> getUsers() {

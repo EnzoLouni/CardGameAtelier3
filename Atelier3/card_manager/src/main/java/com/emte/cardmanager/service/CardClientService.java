@@ -5,12 +5,10 @@ import com.emte.dto.CardDto;
 import com.emte.mapper.CardMapper;
 import com.emte.model.Card;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -20,8 +18,6 @@ import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
-@Validated
-@Slf4j
 @RequiredArgsConstructor
 @Service
 public class CardClientService {

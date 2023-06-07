@@ -2,6 +2,7 @@ package com.emte.usermanager.controller;
 
 import com.emte.dto.AuthDto;
 import com.emte.dto.UserDto;
+import com.emte.model.RequestCreationUser;
 import com.emte.usermanager.service.UserService;
 import com.emte.view.Views;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -36,9 +37,9 @@ public class UserPublicController {
 
     @JsonView(Views.UserView.class)
     @PostMapping("/user")
-    public UserDto createUser(@RequestBody @Valid UserDto user)
+    public UserDto createUser(@RequestBody @Valid RequestCreationUser request)
     {
-        return userService.createUser(user);
+        return userService.createUser(request);
     }
 
     @PostMapping("/auth")
