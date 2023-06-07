@@ -7,6 +7,7 @@ import com.emte.view.Views;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -19,7 +20,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import org.springframework.test.web.servlet.MvcResult;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+
 @SpringBootTest
+@AutoConfigureMockMvc
 public class StoreControllerTests {
 
     @Autowired
@@ -31,13 +39,14 @@ public class StoreControllerTests {
     @JsonView(Views.StoreView.class)
     @Test
     public void testGetTransactions() throws Exception {
-        StoreTransactionDto transactionDto = new StoreTransactionDto();
-        when(storeService.getTransactions()).thenReturn(Collections.singletonList(transactionDto));
-
-        mockMvc.perform(get("/store/transactions"))
+        MvcResult result = mockMvc.perform(get("/transactions"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0]").exists())
-                .andExpect(jsonPath("$[0].action").exists());
+                .andReturn();
+        String responseBody = result.getResponse().getContentAsString();
+        JSONArray transactions = new JSONArray(responseBody);
+        assertTrue(transactions.length() > 0);
+        JSONObject transaction = transactions.getJSONObject(0);
+        assertTrue(transaction.has("action"));
     }
 
     @Test
