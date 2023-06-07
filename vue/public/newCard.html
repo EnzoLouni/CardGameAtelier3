@@ -4,9 +4,10 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>New Room</title>
+    <title>New Card</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
   </head>
 
   <body class="overflow-x-hidden">
@@ -49,7 +50,7 @@
           <div
             class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0"
           >
-            <span class="text-white font-bold">XXX€</span>
+            <span class="text-white font-bold">{{money}}€</span>
           </div>
         </div>
       </div>
@@ -59,7 +60,7 @@
         <h2
           class="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900"
         >
-          New Room
+          New Card
         </h2>
       </div>
 
@@ -72,7 +73,7 @@
             <label
               for="name"
               class="block text-sm font-medium leading-6 text-gray-900"
-              >Nom</label
+              >Name</label
             >
             <div class="mt-2">
               <input
@@ -89,7 +90,7 @@
             <label
               for="Family"
               class="block text-sm font-medium leading-6 text-gray-900"
-              >Famille</label
+              >Family</label
             >
             <div class="mt-2">
               <input
@@ -106,46 +107,12 @@
             <label
               for="affinity"
               class="block text-sm font-medium leading-6 text-gray-900"
-              >Affinité</label
+              >Affinity</label
             >
             <div class="mt-2">
               <input
                 id="affinity"
                 name="affinity"
-                type="text"
-                required
-                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
-          </div>
-
-          <div class="w-1/2 px-2 py-2">
-            <label
-              for="imgUrl"
-              class="block text-sm font-medium leading-6 text-gray-900"
-              >Lien image</label
-            >
-            <div class="mt-2">
-              <input
-                id="imgUrl"
-                name="imgUrl"
-                type="text"
-                required
-                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
-          </div>
-
-          <div class="w-1/2 px-2 py-2">
-            <label
-              for="smallImgUrl"
-              class="block text-sm font-medium leading-6 text-gray-900"
-              >Lien petite image</label
-            >
-            <div class="mt-2">
-              <input
-                id="smallImgUrl"
-                name="smallImgUrl"
                 type="text"
                 required
                 class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -301,6 +268,24 @@
     </div>
 
     <script>
+      const { createApp } = Vue;
+      createApp({
+        data() {
+          return {
+            message: "hello",
+            money: "",
+          };
+        },
+        mounted() {
+          console.log(JSON.parse(window.localStorage.getItem("userData")));
+          if (window.localStorage.getItem("userData")) {
+            const userJson = JSON.parse(
+              window.localStorage.getItem("userData")
+            );
+            this.money = userJson.money ? userJson.money : "2022";
+          } else console.log("no user logged in");
+        },
+      }).mount("body");
       function NewCard() {
         const name = document.getElementById("name").value;
         const family = document.getElementById("family").value;

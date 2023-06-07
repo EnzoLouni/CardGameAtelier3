@@ -51,7 +51,7 @@
           <div
             class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0"
           >
-            <span class="text-white font-bold">XXX€</span>
+            <span class="text-white font-bold">{{ money }}€</span>
           </div>
         </div>
       </div>
@@ -81,10 +81,6 @@
         <div class="px-6 pt-4 pb-2">
           <span
             class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
-            >{{item.id}}</span
-          >
-          <span
-            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
             >{{item.energy}}</span
           >
           <span
@@ -93,7 +89,7 @@
           >
           <span
             class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
-            >{{item.defence}}</span
+            >{{item.defense}}</span
           >
           <span
             class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
@@ -108,25 +104,25 @@
     </div>
     <script>
       const { createApp } = Vue;
-
       createApp({
         data() {
           return {
             message: "hello",
             cards: [],
+            money: "",
           };
         },
         mounted() {
-          axios
-            .get("http://vps.cpe-sn.fr:8083/cards")
-            .then((response) => {
-              this.cards = response.data.slice(700, response.data.length);
-            })
-            .catch((error) => {
-              console.log(error);
-            });
+          console.log(JSON.parse(window.localStorage.getItem("userData")));
+          if (window.localStorage.getItem("userData")) {
+            const userJson = JSON.parse(
+              window.localStorage.getItem("userData")
+            );
+            this.cards = userJson.cardDtos;
+            this.money = userJson.money ? userJson.money : "2022";
+          } else console.log("no user logged in");
         },
-      }).mount("#containCards");
+      }).mount("body");
     </script>
   </body>
 </html>

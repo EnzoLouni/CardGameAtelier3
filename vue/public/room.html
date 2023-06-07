@@ -50,7 +50,7 @@
           <div
             class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0"
           >
-            <span class="text-white font-bold">XXX€</span>
+            <span class="text-white font-bold">{{money}}€</span>
           </div>
         </div>
       </div>
@@ -109,6 +109,7 @@
             rooms: [],
             name: "",
             id: "",
+            money: "",
           };
         },
         beforeMount() {
@@ -123,6 +124,13 @@
             .catch((error) => {
               console.log(error);
             });
+          console.log(JSON.parse(window.localStorage.getItem("userData")));
+          if (window.localStorage.getItem("userData")) {
+            const userJson = JSON.parse(
+              window.localStorage.getItem("userData")
+            );
+            this.money = userJson.money ? userJson.money : "2022";
+          } else console.log("no user logged in");
           this.loading = false;
         },
         methods: {
@@ -134,7 +142,7 @@
             alert("come in");
           },
         },
-      }).mount("#containCards");
+      }).mount("body");
     </script>
   </body>
 </html>

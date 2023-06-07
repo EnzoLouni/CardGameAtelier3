@@ -1,0 +1,77 @@
+version: '3.3'
+
+services:
+  db:
+    container_name: cardgame_db
+    image: schtoukai/cardgame_pg
+    build:
+      context: ./postgres
+      dockerfile: Dockerfile
+    ports:
+      - 5432:5432
+    restart: always
+  reverseproxy:
+    container_name: cardgame_reverseproxy
+    image: schtoukai/cardgame_nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    restart: always
+    network_mode: "host"
+    depends_on: 
+      - db
+  userservice:
+    container_name: user_manager
+    build:
+        context: ./Atelier3/user_manager
+        dockerfile: Dockerfile
+    image: schtoukai/cardgame_userservice
+    ports:
+      - 8081:8081
+    depends_on:
+      - db
+      - reverseproxy
+  cardservice:
+    container_name: card_manager
+    build:
+        context: ./Atelier3/card_manager
+        dockerfile: Dockerfile
+    image: schtoukai/cardgame_cardservice
+    ports:
+      - 8082:8082
+    depends_on:
+      - db
+      - reverseproxy
+  storeservice:
+    container_name: store_manager
+    build:
+        context: ./Atelier3/store_manager
+        dockerfile: Dockerfile
+    image: schtoukai/cardgame_storeservice
+    ports:
+      - 8083:8083
+    depends_on:
+      - db
+      - reverseproxy
+  roomservice:
+    container_name: room_manager
+    build:
+        context: ./Atelier3/room_manager
+        dockerfile: Dockerfile
+    image: schtoukai/cardgame_roomservice
+    ports:
+      - 8084:8084
+    depends_on:
+      - db
+      - reverseproxy
+  vue:
+    container_name: cardgame_vue
+    build:
+        context: ./vue
+        dockerfile: Dockerfile
+    image: schtoukai/cardgame_vue
+    ports:
+      - 3001:3001
+    depends_on:
+      - db
+      - reverseproxy
