@@ -21,6 +21,11 @@ public class UserPrivateController {
         return userClientService.getUser(id);
     }
 
+    @PutMapping("/users/{id}")
+    public UserDto updateUser(@PathVariable(name = "id") Integer id, @RequestBody @Valid UserDto newUserDto) {
+        return userService.updateUser(id, newUserDto);
+    }
+
     @PostMapping("/auth")
     public boolean authentication(@RequestBody @Valid AuthDto request)
     {

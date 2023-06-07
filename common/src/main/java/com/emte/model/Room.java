@@ -1,33 +1,28 @@
 package com.emte.model;
 
-import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Data
 @Builder
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "USER", schema = "public")
-public class User {
+@Table(name = "ROOM", schema = "public")
+public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @NotNull
-    private String login;
+    private String name;
     @NotNull
-    private String password;
+    private Integer user1;
+    private Integer user2;
     @NotNull
-    private String firstname;
-    @NotNull
-    private String surname;
-    @NotNull
-    private String email;
-    @NotNull
-    private Double wallet;
+    private Double bet;
 }

@@ -3,10 +3,7 @@ package com.emte.client;
 import com.emte.dto.AuthDto;
 import com.emte.dto.UserDto;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -15,6 +12,9 @@ public interface UserClient {
 
     @GetMapping("/private/users/{id}")
     UserDto getUser(@PathVariable(name = "id") Integer id);
+
+    @PutMapping("/users/{id}")
+    UserDto updateUser(@PathVariable(name = "id") Integer id, @RequestBody @Valid UserDto newUserDto);
 
     @PostMapping("/private/auth")
     boolean authentication(@RequestBody @Valid AuthDto request);

@@ -143,7 +143,6 @@
     </div>
     <script>
       const { createApp } = Vue;
-      let selectedCardId;
       createApp({
         data() {
           return {
@@ -160,6 +159,7 @@
             attack: "",
             price: "",
             money: "",
+            selectedCardId: ""
           };
         },
         beforeMount() {
@@ -173,6 +173,7 @@
               this.family = response.data[0].family;
               this.affinity = response.data[0].affinity;
               this.id = response.data[0].id;
+              this.selectedCardId = this.id;
               this.energy = response.data[0].energy;
               this.hp = response.data[0].hp;
               this.defence = response.data[0].defence;
@@ -187,7 +188,7 @@
             const userJson = JSON.parse(
               window.localStorage.getItem("userData")
             );
-            this.money = userJson.money ? userJson.money : "2022";
+            this.money = userJson.wallet ? userJson.wallet : "2022";
           } else console.log("no user logged in");
           this.loading = false;
         },
@@ -198,23 +199,37 @@
             this.family = item.family;
             this.affinity = item.affinity;
             this.id = item.id;
-            selectedCardId = item.id;
+            this.selectedCardId = item.id;
             this.energy = item.energy;
             this.hp = item.hp;
             this.defence = item.defence;
             this.attack = item.attack;
             this.price = item.price;
           },
-          buy: function () {
+          buy: async function () {
             if (window.localStorage.getItem("userData")) {
-              const userJson = JSON.parse(
+              let userJson = JSON.parse(
                 window.localStorage.getItem("userData")
               );
-              axios.post("http://localhost:80/storeapi/store/buy/", {
-                cardId: userJson.id,
-                userId: selectedCardId,
+              await axios.post("http://localhost:80/storeapi/store/buy/", {
+                cardId: this.selectedCardId,
+                userId: userJson.id,
               });
-              console.log(userJson.id, selectedCardId);
+              axios
+                .get("http://localhost:80/userapi/public/users/"+userJson.id)
+                .then((response) => {
+                  console.log(response.data);
+                  if (response.data) {
+                    window.localStorage.setItem(
+                      "userData",
+                      JSON.stringify(response.data)
+                    );
+                  }})
+                  userJson = JSON.parse(
+                    window.localStorage.getItem("userData")
+                  );
+                  this.wallet = userJson.wallet;
+              console.log(userJson.id, this.selectedCardId);
             } else console.log("no user logged in");
 
             this.cards = this.cards.filter((item) => item.id !== this.id);

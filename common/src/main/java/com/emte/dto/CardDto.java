@@ -11,29 +11,29 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CardDto {
-    @JsonView(Views.CardView.class)
+    @JsonView({Views.CardView.class, Views.UserView.class, Views.StoreView.class})
     private Integer id;
-    @JsonView({Views.UserView.class, Views.CardView.class, Views.StoreView.class})
+    @JsonView({Views.CardView.class, Views.UserView.class, Views.StoreView.class})
     private String name;
-    @JsonView({Views.UserView.class, Views.CardView.class})
+    @JsonView({Views.CardView.class, Views.UserView.class, Views.StoreView.class})
     private String description;
-    @JsonView({Views.UserView.class, Views.CardView.class})
+    @JsonView({Views.CardView.class, Views.UserView.class, Views.StoreView.class})
     private String family;
-    @JsonView({Views.UserView.class, Views.CardView.class})
+    @JsonView({Views.CardView.class, Views.UserView.class, Views.StoreView.class})
     private String affinity;
-    @JsonView({Views.UserView.class, Views.CardView.class, Views.StoreView.class})
+    @JsonView({Views.CardView.class, Views.UserView.class, Views.StoreView.class})
     private String imgUrl;
-    @JsonView({Views.UserView.class, Views.CardView.class, Views.StoreView.class})
+    @JsonView({Views.CardView.class, Views.UserView.class, Views.StoreView.class})
     private String smallImgUrl;
-    @JsonView({Views.UserView.class, Views.CardView.class})
+    @JsonView({Views.CardView.class, Views.UserView.class, Views.StoreView.class})
     private Double energy;
-    @JsonView({Views.UserView.class, Views.CardView.class})
+    @JsonView({Views.CardView.class, Views.UserView.class, Views.StoreView.class})
     private Double hp;
-    @JsonView({Views.UserView.class, Views.CardView.class})
+    @JsonView({Views.CardView.class, Views.UserView.class, Views.StoreView.class})
     private Double defense;
-    @JsonView({Views.UserView.class, Views.CardView.class})
+    @JsonView({Views.CardView.class, Views.UserView.class, Views.StoreView.class})
     private Double attack;
-    @JsonView({Views.UserView.class, Views.CardView.class})
+    @JsonView({Views.CardView.class, Views.UserView.class, Views.StoreView.class})
     private Double price;
     private Integer userId;
 }

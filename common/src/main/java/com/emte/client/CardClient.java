@@ -1,6 +1,7 @@
 package com.emte.client;
 
 import com.emte.dto.CardDto;
+import com.emte.model.RequestCreationCard;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
