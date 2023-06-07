@@ -1,4 +1,4 @@
-package com.emte.storemanager;
+package com.emte.storemanager.service;
 
 import com.emte.client.CardClient;
 import com.emte.client.UserClient;
@@ -22,6 +22,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+
 @SpringBootTest
 public class StoreServiceTests {
 
@@ -37,7 +40,7 @@ public class StoreServiceTests {
     @MockBean
     private UserClient userClient;
 
-    @InjectMocks
+    @MockBean
     private StoreService storeService;
 
     @Test
