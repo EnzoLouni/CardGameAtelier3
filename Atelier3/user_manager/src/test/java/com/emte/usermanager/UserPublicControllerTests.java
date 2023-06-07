@@ -1,13 +1,13 @@
 package com.emte.usermanager;
 
 import com.emte.dto.UserDto;
-import com.emte.usermanager.controller.UserPublicController;
 import com.emte.usermanager.service.UserService;
 import com.emte.view.Views;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -19,15 +19,9 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.emte.FeignConfig;
-@WebMvcTest(UserPublicController.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 public class UserPublicControllerTests {
 
     @Autowired
@@ -48,18 +42,24 @@ public class UserPublicControllerTests {
     }
 
     @JsonView(Views.UserView.class)
-    @Test
-    public void testUpdateUser() throws Exception {
-        UserDto userDto = new UserDto();
-        when(userService.updateUser(anyInt(), any())).thenReturn(userDto);
+@Test
+public void testUpdateUser() throws Exception {
+    UserDto userDto = new UserDto();
+    when(userService.updateUser(anyInt(), any())).thenReturn(userDto);
 
-        mockMvc.perform(put("/public/users/{id}", 1)
-                .contentType("application/json")
-                .content("{ \"name\": \"John Doe\", \"email\": \"john.doe@example.com\" }"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("John Doe"))
-                .andExpect(jsonPath("$.email").value("john.doe@example.com"));
-    }
+    MvcResult result = mockMvc.perform(put("/public/users/{id}", 1)
+            .contentType("application/json")
+            .content("{ \"name\": \"John Doe\", \"email\": \"john.doe@example.com\" }"))
+            .andExpect(status().isOk())
+            .andReturn();
+
+    String responseBody = result.getResponse().getContentAsString();
+    System.out.println("Response body: " + responseBody);
+
+    mockMvc.perform(asyncDispatch(result))
+            .andExpect(jsonPath("$.name").value("John Doe"))
+            .andExpect(jsonPath("$.email").value("john.doe@example.com"));
+}
 
     @Test
     public void testDeleteUser() throws Exception {
