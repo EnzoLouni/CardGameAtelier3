@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@FeignClient(name = "cardClient", url = "http://localhost:8082/cardapi")
+@FeignClient(name = "cardClient", url = "${card.ribbon.listOfServers}/cardapi")
 public interface CardClient {
 
     @GetMapping("/private/cards/{id}")

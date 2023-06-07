@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
 
-@FeignClient(name = "userClient", url = "http://localhost:8081/userapi")
+@FeignClient(name = "userClient", url = "${user.ribbon.listOfServers}/userapi")
 public interface UserClient {
 
     @GetMapping("/private/users/{id}")
