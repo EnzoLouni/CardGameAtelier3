@@ -120,23 +120,6 @@
             </div>
           </div>
 
-          <div class="w-1/2 px-2 py-2">
-            <label
-              for="id"
-              class="block text-sm font-medium leading-6 text-gray-900"
-              >ID</label
-            >
-            <div class="mt-2">
-              <input
-                id="id"
-                name="id"
-                type="number"
-                required
-                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
-          </div>
-
           <div class="w-1/3 px-2 py-2">
             <label
               for="energy"
@@ -222,23 +205,6 @@
             </div>
           </div>
 
-          <div class="w-1/3 px-2 py-2">
-            <label
-              for="userId"
-              class="block text-sm font-medium leading-6 text-gray-900"
-              >userId</label
-            >
-            <div class="mt-2">
-              <input
-                id="userId"
-                name="userId"
-                type="number"
-                required
-                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
-          </div>
-
           <div class="w-full px-2 py-2">
             <label
               for="description"
@@ -287,18 +253,17 @@
         },
       }).mount("body");
       function NewCard() {
+        console.log("create");
         const name = document.getElementById("name").value;
         const family = document.getElementById("family").value;
         const affinity = document.getElementById("affinity").value;
-        const imgUrl = document.getElementById("imgUrl").value;
-        const smallImgUrl = document.getElementById("smallImgUrl").value;
-        const id = document.getElementById("id").value;
+        const imgUrl = "todo";
+        const smallImgUrl = "todo";
         const energy = document.getElementById("energy").value;
         const hp = document.getElementById("hp").value;
         const defence = document.getElementById("defence").value;
         const attack = document.getElementById("attack").value;
         const price = document.getElementById("price").value;
-        const userId = document.getElementById("userId").value;
         const description = document.getElementById("description").value;
 
         const data = {
@@ -307,18 +272,16 @@
           affinity: affinity,
           imgUrl: imgUrl,
           smallImgUrl: smallImgUrl,
-          id: id,
           energy: energy,
           hp: hp,
           defence: defence,
           attack: attack,
           price: price,
-          userId: userId,
           description: description,
         };
 
         axios
-          .post("http://vps.cpe-sn.fr:8083/card", data)
+          .post("http://localhost:80/cardapi/public/card/", data)
           .then(function (response) {
             console.log(response);
           })
